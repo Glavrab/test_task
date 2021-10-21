@@ -17,7 +17,7 @@ services:
   phone_number_api:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: api/Dockerfile
     container_name: phone_number_api
     restart: "no"
     depends_on:
@@ -30,7 +30,7 @@ services:
       - ./config.json:/Phone_number_api/config.json
     command:
       - "gunicorn"
-      - "main:create_app"
+      - "api.main:create_app"
       - "--bind"
       - "0.0.0.0:8000"
       - "--worker-class"

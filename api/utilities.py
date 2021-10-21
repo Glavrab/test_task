@@ -1,7 +1,7 @@
 import re
 import alembic.config
 import alembic.command
-from constants import Codes, URL
+from api.constants import Codes, URL
 from database import BlockedNumbers
 from loguru import logger
 PHONE_NUMBER_PATTERN_WITH_PLUS = re.compile('^[0-9\-\+]{11,15}$')

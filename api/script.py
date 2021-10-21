@@ -2,7 +2,7 @@ import asyncio
 
 import openpyxl
 
-from constants import URL, settings
+from api.constants import URL, settings
 from database import BlockedNumbers, db
 
 TASKS = []

@@ -1,8 +1,8 @@
 from aiohttp import web
 from loguru import logger
 import ujson
-from constants import settings, URL
-from utilities import check_if_phone_number_exist_in_stop_list, PhoneNumberValidationError, apply_migrations
+from api.constants import settings, URL
+from api.utilities import check_if_phone_number_exist_in_stop_list, PhoneNumberValidationError, apply_migrations
 from database import db
 
 
