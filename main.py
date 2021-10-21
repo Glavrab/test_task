@@ -2,7 +2,7 @@ from aiohttp import web
 from loguru import logger
 import ujson
 from constants import settings, URL
-from utilities import check_if_phone_number_exist_in_stop_list, PhoneNumberValidationError
+from utilities import check_if_phone_number_exist_in_stop_list, PhoneNumberValidationError, apply_migrations
 from database import db
 
 
@@ -29,6 +29,7 @@ async def create_app() -> web.Application:
     )
     app.on_cleanup.append(on_cleanup)
     await db.set_bind(URL.DB_URL_INSIDE_CONTAINER.value)
+    apply_migrations()
     logger.debug('Finished starting process')
     return app
 

@@ -1,8 +1,9 @@
 import re
-
-from constants import Codes
+import alembic.config
+import alembic.command
+from constants import Codes, URL
 from database import BlockedNumbers
-
+from loguru import logger
 PHONE_NUMBER_PATTERN_WITH_PLUS = re.compile('^[0-9\-\+]{11,15}$')
 PHONE_NUMBER_PATTERN_WITH_MINUS = re.compile('^[0-9\-\+]{11,14}$')
 
@@ -35,3 +36,14 @@ def check_if_phone_number_is_valid(phone_number: str) -> str:
         raise PhoneNumberValidationError('Phone number is not correct')
     return phone_number[1:] if phone_number[0] == '+' else phone_number  # Deleting + if it exists in number because in
     # db we dont have them
+
+
+def apply_migrations():
+    """Apply migrations"""
+    alembic_config = alembic.config.Config('alembic.ini')
+    logger.info("Applying alembic migration")
+    alembic_config.set_main_option(
+        "sqlalchemy.url",
+        URL.DB_URL_INSIDE_CONTAINER.value,
+    )
+    alembic.command.upgrade(alembic_config, 'head')
