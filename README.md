@@ -1,7 +1,7 @@
-#Phone number check API
+Phone number check API
 
 
-##About
+**About**
 **Stack:** aiohttp(as a main web service), openpyxl(as excel parser), PostgreSQL(as a db to store phone numbers, operated with gino),
 Docker.
 
