@@ -1,9 +1,11 @@
 import re
-import alembic.config
+
 import alembic.command
+import alembic.config
+from loguru import logger
+
 from api.constants import Codes, URL
 from database import BlockedNumbers
-from loguru import logger
 
 PHONE_NUMBER_PATTERN_WITH_PLUS = re.compile('^\+[0-9]{11,15}$')
 PHONE_NUMBER_PATTERN_WITHOUT_PLUS = re.compile('^[0-9]{11,14}$')
