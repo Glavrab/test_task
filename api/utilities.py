@@ -4,8 +4,9 @@ import alembic.command
 from api.constants import Codes, URL
 from database import BlockedNumbers
 from loguru import logger
-PHONE_NUMBER_PATTERN_WITH_PLUS = re.compile('^[0-9\-\+]{11,15}$')
-PHONE_NUMBER_PATTERN_WITH_MINUS = re.compile('^[0-9\-\+]{11,14}$')
+
+PHONE_NUMBER_PATTERN_WITH_PLUS = re.compile('^\+[0-9]{11,15}$')
+PHONE_NUMBER_PATTERN_WITHOUT_PLUS = re.compile('^[0-9]{11,14}$')
 
 
 class PhoneNumberAPIException(Exception):
@@ -31,7 +32,7 @@ async def check_if_phone_number_exist_in_stop_list(phone_number: str) -> int:
 
 def check_if_phone_number_is_valid(phone_number: str) -> str:
     """Check if phone number is valid to process further"""
-    pattern = PHONE_NUMBER_PATTERN_WITH_MINUS if phone_number[0] == '+' else PHONE_NUMBER_PATTERN_WITH_MINUS
+    pattern = PHONE_NUMBER_PATTERN_WITHOUT_PLUS if phone_number[0] == '+' else PHONE_NUMBER_PATTERN_WITHOUT_PLUS
     if not pattern.match(phone_number):
         raise PhoneNumberValidationError('Phone number is not correct')
     return phone_number[1:] if phone_number[0] == '+' else phone_number  # Deleting + if it exists in number because in
