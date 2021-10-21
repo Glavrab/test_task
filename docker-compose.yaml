@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres:13
+    restart: always
+    container_name: phone_numbers_database
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin1234
+      POSTGRES_DB: phone_numbers_database
+    command: [ "postgres", "-c", "log_statement=all" ]
+
+  phone_number_api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: phone_number_api
+    restart: "no"
+    depends_on:
+      - "db"
+    environment:
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./config.json:/Phone_number_api/config.json
+    command:
+      - "gunicorn"
+      - "main:create_app"
+      - "--bind"
+      - "0.0.0.0:8000"
+      - "--worker-class"
+      - "aiohttp.GunicornWebWorker"
+      - "--workers=1"
